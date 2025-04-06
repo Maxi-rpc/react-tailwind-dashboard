@@ -2,7 +2,7 @@ import { lazy } from 'react';
 
 // project imports
 import Loadable from '@/components/Loadable';
-
+import AppLayout from '@/layout/AppLayout';
 // page routing
 const HomePage = Loadable(lazy(() => import('@/pages/dashboard/Home')));
 const ErrorPage = Loadable(lazy(() => import('@/pages/error/Error')));
@@ -11,7 +11,7 @@ const ErrorPage = Loadable(lazy(() => import('@/pages/error/Error')));
 
 const MainRoutes = {
   path: '/',
-  element: <HomePage />,
+  element: <AppLayout />,
   children: [
     {
       path: '/',
