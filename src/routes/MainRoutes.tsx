@@ -4,8 +4,8 @@ import { lazy } from 'react';
 import Loadable from '@/components/Loadable';
 import AppLayout from '@/layout/AppLayout';
 // page routing
-const HomePage = Loadable(lazy(() => import('@/pages/dashboard/Home')));
-const ErrorPage = Loadable(lazy(() => import('@/pages/error/Error')));
+const HomePage = Loadable(lazy(() => import('@/pages/Dashboard/Home')));
+const NotFoundPage = Loadable(lazy(() => import('@/pages/OtherPage/NotFound')));
 
 // ===========================|| MAIN ROUTING ||=========================== //
 
@@ -19,7 +19,7 @@ const MainRoutes = {
     },
     {
       path: '*',
-      element: <ErrorPage />,
+      element: <NotFoundPage />,
     },
   ],
 };

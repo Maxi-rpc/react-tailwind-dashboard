@@ -14,6 +14,9 @@ export default defineConfig({
       'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization',
     },
   },
+  html: {
+    template: './public/index.html',
+  },
   output: {
     target: 'web',
     assetPrefix: 'auto',
