@@ -11,7 +11,7 @@ const NotFoundPage = Loadable(lazy(() => import('@/pages/otherPage/NotFound')));
 // ===========================|| MAIN ROUTING ||=========================== //
 
 const MainRoutes = {
-  path: '/',
+  path: '/dashboard',
   element: (
     <ProtectedRoutes>
       <AppLayout />

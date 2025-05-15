@@ -2,24 +2,24 @@ import { lazy } from 'react';
 
 // project imports
 import Loadable from '@/components/Loadable';
-import AppLayout from '@/layout/AppLayout';
+import MinimalLayout from '@/layout/MinimalLayout';
 // page routing
-const HomePage = Loadable(lazy(() => import('@/pages/public/home')));
+const LoginPage = Loadable(lazy(() => import('@/pages/public/login')));
 const NotFoundPage = Loadable(lazy(() => import('@/pages/otherPage/NotFound')));
 
 // ===========================|| MAIN ROUTING ||=========================== //
 
 const MainRoutes = {
   path: '/',
-  element: <AppLayout />,
+  element: <MinimalLayout />,
   children: [
     {
       path: '/',
-      element: <HomePage />,
+      element: <LoginPage />,
     },
     {
       path: 'login',
-      element: <NotFoundPage />,
+      element: <LoginPage />,
     },
     {
       path: '*',
