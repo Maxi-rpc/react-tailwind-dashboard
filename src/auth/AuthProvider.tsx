@@ -1,23 +1,16 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-
-type AuthContextType = {
-  isAuthenticated: boolean;
-  token: string | null;
-  role: string | null;
-  login: (data: { token: string; role: string }, cb: () => void) => void;
-  logout: (cb: () => void) => void;
-};
+import { AuthContextType } from '@/types/auth';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState<string | null>(null);
-  const [role, setRole] = useState<string | null>(null);
+  const [role, setRole] = useState<'admin' | 'user' | null>(null);
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
-    const storedRole = localStorage.getItem('role');
+    const storedRole = localStorage.getItem('role') as 'admin' | 'user' | null;
 
     if (storedToken) {
       setToken(storedToken);
@@ -26,7 +19,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const login = (data: { token: string; role: string }, cb: () => void) => {
+  const login = (data: { token: string; role: 'admin' | 'user' }, cb: () => void) => {
     localStorage.setItem('token', data.token);
     localStorage.setItem('role', data.role);
     setToken(data.token);
@@ -37,9 +30,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = (cb: () => void) => {
     localStorage.clear();
-    setIsAuthenticated(false);
     setToken(null);
     setRole(null);
+    setIsAuthenticated(false);
     cb();
   };
 
