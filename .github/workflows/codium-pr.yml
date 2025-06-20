@@ -1,0 +1,14 @@
+# .github/workflows/codium-pr.yml
+name: Codium PR Agent
+
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review, review_requested]
+  issue_comment:
+
+jobs:
+  codium-agent:
+    uses: Maxi-rpc/shared-workflows/.github/workflows/codium-pr-agent.yml@main
+    secrets:
+      OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
