@@ -6,6 +6,11 @@ on:
     types: [opened, reopened, ready_for_review, review_requested]
   issue_comment:
 
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  
 jobs:
   codium-agent:
     uses: Maxi-rpc/shared-workflows/.github/workflows/codium-pr-agent.yml@main
