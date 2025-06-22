@@ -1,7 +1,7 @@
 import { RouteObject } from 'react-router';
 import RoleProtectedRoute from './RoleProtectedRoute';
-import DashboardLayout from '../layout/AppLayout';
-import Home from '../pages/Dashboard/Home';
+import DashboardLayout from '../layout/AppLayoutCustom';
+import Home from '../pages/Dashboard';
 import Profile from '../pages/UserProfiles';
 
 export const userRoutes: RouteObject[] = [
