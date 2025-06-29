@@ -25,3 +25,4 @@ jobs:
           github_action_config.auto_describe: "true"
           github_action_config.auto_improve: "true"
           github_action_config.pr_actions: '["opened", "reopened", "ready_for_review", "review_requested"]'
+          github_action_config.llm.model: "gpt-3.5-turbo"
