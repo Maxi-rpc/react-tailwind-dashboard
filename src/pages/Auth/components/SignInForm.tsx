@@ -8,18 +8,49 @@ import Button from '../../../components/ui/button/Button';
 // custom
 import { useNavigate } from 'react-router';
 import { useAuth } from '../../../auth/AuthContext';
+import { useAuthValidation } from '../../../hooks/useAuthValidation';
 
 export default function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [fieldErrors, setFieldErrors] = useState<{ username?: string; password?: string }>({});
 
   const { login } = useAuth();
   const navigate = useNavigate();
+  const { validateCredentials, error } = useAuthValidation();
 
-  const handleLogin = () => {
-    // Login con múltiples roles
-    login(['admin', 'trainer']);
-    navigate('/dashboard');
+  const validateFields = () => {
+    const errors: { username?: string; password?: string } = {};
+    if (!username.trim()) errors.username = 'El campo usuario no puede estar vacío';
+    if (!password.trim()) errors.password = 'El campo contraseña no puede estar vacío';
+    setFieldErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    if (e.target.name == 'email') {
+      setUsername(e.target.value);
+    } else {
+      setPassword(e.target.value);
+    }
+    if (!validateFields()) return;
+  };
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validateFields()) return;
+    const roles = validateCredentials(username, password);
+    if (roles) {
+      console.log('Roles:', roles);
+      // Login con múltiples roles
+      //login(['admin', 'trainer']);
+      //navigate('/dashboard');
+    } else {
+      console.error(error);
+    }
   };
 
   return (
@@ -92,14 +123,29 @@ export default function SignInForm() {
                   <Label>
                     Email <span className="text-error-500">*</span>{' '}
                   </Label>
-                  <Input placeholder="info@gmail.com" />
+                  <Input
+                    name="email"
+                    placeholder="info@gmail.com"
+                    value={username}
+                    onChange={(e) => handleChange(e)}
+                    error={fieldErrors.username ? true : false}
+                    hint={fieldErrors.username ? fieldErrors.password : ''}
+                  />
                 </div>
                 <div>
                   <Label>
                     Password <span className="text-error-500">*</span>{' '}
                   </Label>
                   <div className="relative">
-                    <Input type={showPassword ? 'text' : 'password'} placeholder="Enter your password" />
+                    <Input
+                      name="password"
+                      type={showPassword ? 'text' : 'password'}
+                      placeholder="Enter your password"
+                      value={password}
+                      onChange={(e) => handleChange(e)}
+                      error={fieldErrors.password ? true : false}
+                      hint={fieldErrors.password ? fieldErrors.password : ''}
+                    />
                     <span
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute z-30 -translate-y-1/2 cursor-pointer right-4 top-1/2"
@@ -126,6 +172,7 @@ export default function SignInForm() {
                     Forgot password?
                   </Link>
                 </div>
+                {error && <p className="text-sm text-red-500">{error}</p>}
                 <div>
                   <Button className="w-full" size="sm" onClick={handleLogin}>
                     Sign in
